@@ -1,16 +1,6 @@
 defmodule Pullrequests.GithubPR do
   @doc """
-  bash version
-  function pr () {
-    local base=$1
-    if [ -z "$1" ]; then
-      base="master"
-    fi
-    local repo=`git remote -v | grep -m 1 "(push)" | sed -e "s/.*github.com[:/]\(.*\)\.git.*/\1/"`
-    local branch=`git name-rev --name-only HEAD`
-    echo "... creating pull request for branch \"$branch\" to \"$base\" in \"$repo\""
-    open https://github.com/$repo/compare/$base...$branch
-  }
+  Opens a web browser to the github compare page to create a new pull request
   """
   def process({:new, target}) do
     IO.puts "Creating new pull request against #{target}"
@@ -31,13 +21,7 @@ defmodule Pullrequests.GithubPR do
   end
 
   @doc """
-  bash version:
-  function fpr () {
-    echo git fetch origin pull/$1/head:pr$1
-    git fetch origin pull/$1/head:pr$1
-    echo git checkout pr$1
-    git checkout pr$1
-  }
+  Fetches the given pull request from github and checks it out
   """
   def process({:fetch, number}) do
     IO.puts "Fetching PR #{number}"
